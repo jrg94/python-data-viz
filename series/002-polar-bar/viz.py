@@ -50,11 +50,19 @@ DOMAIN_COLOR = {
 
 DOMAINS_THEMES = dict()
 for key, value in THEMES_DOMAINS.items():
-  DOMAINS_THEMES.setdefault(value, list()).append(key)
+    DOMAINS_THEMES.setdefault(value, list()).append(key)
 
-def plot_domain(fig, counts, domain):
+
+def plot_domain(fig, counts: pd.Series, domain: str):
+    """
+    Plots a single domain on the starburst plot.
+
+    :param fig: The starburst plot
+    :param counts: The counts of each theme in a domain
+    :param domain: The domain to plot
+    """
     domain_data = counts[counts.index.isin(DOMAINS_THEMES[domain])]
-    fig.add_trace(go.Barpolar( 
+    fig.add_trace(go.Barpolar(
         r=domain_data.values,
         theta=domain_data.index,
         width=[1] * len(domain_data),
@@ -64,6 +72,7 @@ def plot_domain(fig, counts, domain):
         opacity=0.8,
         name=domain
     ))
+
 
 def plot_starburst(df: pd.DataFrame, title: str):
     fig = go.Figure()
@@ -78,22 +87,25 @@ def plot_starburst(df: pd.DataFrame, title: str):
         },
         template=None,
         legend_title="CliftonStrengths Domain",
-        polar = dict(
-            radialaxis = dict(range=[0, max(counts.values)], showticklabels=False, ticks="", nticks=int(max(counts.values))+1, showline=False),
-            angularaxis = dict(categoryarray=list(THEMES_DOMAINS.keys()), nticks=0, tickfont=dict(size=8), ticklen=40)
+        polar=dict(
+            radialaxis=dict(range=[0, max(counts.values)], showticklabels=False, ticks="", nticks=int(
+                max(counts.values))+1, showline=False),
+            angularaxis=dict(categoryarray=list(
+                THEMES_DOMAINS.keys()), nticks=0, tickfont=dict(size=8), ticklen=40)
         )
     )
     return fig
+
 
 df = pd.read_csv("series/002-polar-bar/themes.csv")
 fig = plot_starburst(df, "CliftonStrengths Starburst")
 
 app = dash.Dash()
 app.layout = html.Div(children=[
-  html.H1(children='CliftonStrengths Visualization'),
-  html.Div(children='A polar bar visualization dashboard.'),
-  dcc.Graph(figure=fig)
+    html.H1(children='CliftonStrengths Visualization'),
+    html.Div(children='A polar bar visualization dashboard.'),
+    dcc.Graph(figure=fig)
 ])
 
 if __name__ == '__main__':
-  app.run_server(debug=True)
+    app.run_server(debug=True)
