@@ -89,15 +89,17 @@ def plot_starburst(df: pd.DataFrame, title: str):
     fig.update_layout(
         title={
             'text': title,
-            'y': .95
+            'y': .99
         },
+        width=1000,
+        height=800,
         template=None,
         legend_title="CliftonStrengths Domain",
         polar=dict(
             radialaxis=dict(range=[0, max(counts.values)], showticklabels=False, ticks="", nticks=int(
                 max(counts.values))+1, showline=False),
             angularaxis=dict(categoryarray=list(
-                THEMES_DOMAINS.keys()), nticks=0, tickfont=dict(size=8), ticklen=40)
+                THEMES_DOMAINS.keys()), nticks=0, tickfont=dict(size=12), ticklen=10)
         )
     )
     return fig
