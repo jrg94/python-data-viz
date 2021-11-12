@@ -1,8 +1,8 @@
+import pandas as pd
+import plotly.express as px
 import dash
 from dash import html
 from dash import dcc
-import pandas as pd
-import plotly.express as px
 
 df = pd.read_csv("https://raw.githubusercontent.com/curran/data/gh-pages/plotlyExamples/2014_apple_stock.csv")
 fig = px.line(df, x="AAPL_x", y="AAPL_y", width=1200, height=628)
