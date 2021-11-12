@@ -75,6 +75,12 @@ def plot_domain(fig, counts: pd.Series, domain: str):
 
 
 def plot_starburst(df: pd.DataFrame, title: str):
+    """
+    Creates a complete polar bar chart from the CliftonStrengths data.
+
+    :param df: The dataframe containing the CliftonStrengths data
+    :param title: The title of the plot
+    """
     fig = go.Figure()
     counts = df["Theme"].value_counts()
     for domain in DOMAIN_COLOR.keys():
